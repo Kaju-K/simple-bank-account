@@ -1,3 +1,7 @@
+import random
+
+random.seed(42)
+
 class Account():
 
     __existing_accounts = []
@@ -7,28 +11,20 @@ class Account():
         self.__owner = self.asking_name()
         self.__amount = 0.00
         self.__limit = 1000.00
-        print("Welcome {}! Your account number is {} and you currently have ${} on your bank account.".format(self.__owner, self.__number, self.__amount))
+        print("Welcome {}! Your account number is {} and you currently have ${:.2f} on your bank account.".format(self.__owner, self.__number, self.__amount))
 
     def account_number(self):
         while True:
-            account_number = 0
-
-            while account_number == 0:
-                account_number_str = input("Choose an account number: ")
-                try:
-                    account_number = int(account_number_str)
-                except:
-                    print("The account number should be a number")
-                else:
-                    if (account_number < 100) or (account_number > 9999):
-                        print("The account number should be between 100 and 9999")
-                        account_number = 0
-
-            if account_number in self.__existing_accounts:
-                print("This account number already exists")
+            new_account = random.randint(1, 9999)
+            if new_account in self.__existing_accounts:
+                if len(self.__existing_accounts) == 9999:
+                    print("The number of bank accounts are full, please wait until we fix this.")
+                    break
+                continue
             else:
-                self.__existing_accounts.append(account_number)
-                return account_number
+                self.__existing_accounts.append(new_account)
+                return "{:04d}".format(new_account)
+
 
     def asking_name(self):
         first_name = ""
